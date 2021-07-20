@@ -23,6 +23,7 @@ export const WithAuth = (Component: NextPage) => {
 			} else {
 				Router.push('/login');
 			}
+			return {};
 		}
 		if (Component.getInitialProps) {
 			return await Component.getInitialProps(ctx);

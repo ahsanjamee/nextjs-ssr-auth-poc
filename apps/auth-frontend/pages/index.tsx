@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { destroyCookie } from 'nookies';
 import { useAuthStore, authStore } from '../modules/stores';
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
 import { WithAuth } from '../modules/auth/withAuth';
 
 const Index: NextPage = () => {

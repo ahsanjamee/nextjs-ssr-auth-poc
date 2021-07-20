@@ -29,12 +29,12 @@ const Login: NextPage = () => {
 
 const redirect = (ctx: NextPageContext) => {
 	if (!ctx.res) return;
-	ctx.res.writeHead(302, { location: '/login' });
+	ctx.res.writeHead(302, { location: '/' });
 	ctx.res.end();
 };
 
 Login.getInitialProps = (ctx) => {
-	if (!authStore.getState().isLoggedIn) redirect(ctx);
+	if (authStore.getState().isLoggedIn) redirect(ctx);
 	return {};
 };
 
