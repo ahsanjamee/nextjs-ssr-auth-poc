@@ -15,7 +15,7 @@ export class AuthAPI extends BaseAPI {
 	}
 
 	login(body: CreateUserDTO) {
-		return this.post<{ token: string }>('user/login', body);
+		return this.post<{ token: string | null }>('user/login', body);
 	}
 }
 

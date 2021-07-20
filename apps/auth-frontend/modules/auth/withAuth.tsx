@@ -21,7 +21,7 @@ export const WithAuth = (Component: NextPage) => {
 				ctx.res.writeHead(302, { location: '/login' });
 				ctx.res.end();
 			} else {
-				Router.push('/login');
+				await Router.push('/login');
 			}
 			return {};
 		}

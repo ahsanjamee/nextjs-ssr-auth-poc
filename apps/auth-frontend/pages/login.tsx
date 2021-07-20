@@ -11,8 +11,12 @@ const Login: NextPage = () => {
 	const router = useRouter();
 
 	const handleLogin = async () => {
-		const token = await authAPI.login({ name: 'string', password: 'string' }).catch(() => ({ token: null }));
-		if (token.token) authStore.setBatch({ isLoggedIn: true, token: token.token });
+		const res = await authAPI.login({ name: 'string', password: 'string' });
+		if (res.token) {
+			authStore.setBatch({ isLoggedIn: true, token: res.token });
+			setCookie(null, 'token', res.token);
+			return;
+		}
 		alert('Invalid Username or Password');
 	};
 

@@ -15,8 +15,7 @@ const Index: NextPage = () => {
 			<h1>
 				is Logged in: {String(isLoggedIn)} , Token: {token}
 			</h1>
-			{isLoggedIn && <button onClick={handleLogout}>logout</button>}
-			<h3>server side prop: </h3>
+			<button onClick={handleLogout}>logout</button>
 		</StyledPage>
 	);
 };
