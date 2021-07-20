@@ -1,284 +1,247 @@
 {
-  "version": 2,
-  "projects": {
-    "api": {
-      "root": "apps/api",
-      "sourceRoot": "apps/api/src",
-      "projectType": "application",
-      "targets": {
-        "build": {
-          "executor": "@nrwl/node:build",
-          "outputs": [
-            "{options.outputPath}"
-          ],
-          "options": {
-            "outputPath": "dist/apps/api",
-            "main": "apps/api/src/main.ts",
-            "tsConfig": "apps/api/tsconfig.app.json",
-            "assets": [
-              "apps/api/src/assets"
-            ]
-          },
-          "configurations": {
-            "production": {
-              "optimization": true,
-              "extractLicenses": true,
-              "inspect": false,
-              "fileReplacements": [
-                {
-                  "replace": "apps/api/src/environments/environment.ts",
-                  "with": "apps/api/src/environments/environment.prod.ts"
-                }
-              ]
-            }
-          }
-        },
-        "serve": {
-          "executor": "@nrwl/node:execute",
-          "options": {
-            "buildTarget": "api:build"
-          }
-        },
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "apps/api/**/*.ts"
-            ]
-          }
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/apps/api"
-          ],
-          "options": {
-            "jestConfig": "apps/api/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
-    "auth-frontend": {
-      "root": "apps/auth-frontend",
-      "sourceRoot": "apps/auth-frontend",
-      "projectType": "application",
-      "targets": {
-        "build": {
-          "executor": "@nrwl/next:build",
-          "outputs": [
-            "{options.outputPath}"
-          ],
-          "options": {
-            "root": "apps/auth-frontend",
-            "outputPath": "dist/apps/auth-frontend"
-          },
-          "configurations": {
-            "production": {}
-          }
-        },
-        "serve": {
-          "executor": "@nrwl/next:server",
-          "options": {
-            "buildTarget": "auth-frontend:build",
-            "dev": true,
-            "proxyConfig": "apps/auth-frontend/proxy.conf.json"
-          },
-          "configurations": {
-            "production": {
-              "buildTarget": "auth-frontend:build:production",
-              "dev": false
-            }
-          }
-        },
-        "export": {
-          "executor": "@nrwl/next:export",
-          "options": {
-            "buildTarget": "auth-frontend:build:production"
-          }
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/apps/auth-frontend"
-          ],
-          "options": {
-            "jestConfig": "apps/auth-frontend/jest.config.js",
-            "passWithNoTests": true
-          }
-        },
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "apps/auth-frontend/**/*.{ts,tsx,js,jsx}"
-            ]
-          }
-        }
-      }
-    },
-    "auth-frontend-e2e": {
-      "root": "apps/auth-frontend-e2e",
-      "sourceRoot": "apps/auth-frontend-e2e/src",
-      "projectType": "application",
-      "targets": {
-        "e2e": {
-          "executor": "@nrwl/cypress:cypress",
-          "options": {
-            "cypressConfig": "apps/auth-frontend-e2e/cypress.json",
-            "tsConfig": "apps/auth-frontend-e2e/tsconfig.e2e.json",
-            "devServerTarget": "auth-frontend:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "auth-frontend:serve:production"
-            }
-          }
-        },
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "apps/auth-frontend-e2e/**/*.{js,ts}"
-            ]
-          }
-        }
-      }
-    },
-    "custom-store": {
-      "root": "libs/custom-store",
-      "sourceRoot": "libs/custom-store/src",
-      "projectType": "library",
-      "targets": {
-        "build": {
-          "executor": "@nrwl/web:package",
-          "outputs": [
-            "{options.outputPath}"
-          ],
-          "options": {
-            "outputPath": "dist/libs/custom-store",
-            "tsConfig": "libs/custom-store/tsconfig.lib.json",
-            "project": "libs/custom-store/package.json",
-            "entryFile": "libs/custom-store/src/index.ts",
-            "external": [
-              "react/jsx-runtime"
-            ],
-            "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
-            "assets": [
-              {
-                "glob": "libs/custom-store/README.md",
-                "input": ".",
-                "output": "."
-              }
-            ]
-          }
-        },
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/custom-store/**/*.{ts,tsx,js,jsx}"
-            ]
-          }
-        }
-      }
-    },
-    "jwt": {
-      "root": "libs/jwt",
-      "sourceRoot": "libs/jwt/src",
-      "projectType": "library",
-      "targets": {
-        "build": {
-          "executor": "@nrwl/node:package",
-          "outputs": [
-            "{options.outputPath}"
-          ],
-          "options": {
-            "outputPath": "dist/libs/jwt",
-            "tsConfig": "libs/jwt/tsconfig.lib.json",
-            "packageJson": "libs/jwt/package.json",
-            "main": "libs/jwt/src/index.ts",
-            "assets": [
-              "libs/jwt/*.md"
-            ]
-          }
-        },
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/jwt/**/*.ts"
-            ]
-          }
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/jwt"
-          ],
-          "options": {
-            "jestConfig": "libs/jwt/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
-    "mongodb-memory-server": {
-      "root": "libs/mongodb-memory-server",
-      "sourceRoot": "libs/mongodb-memory-server/src",
-      "projectType": "library",
-      "targets": {
-        "build": {
-          "executor": "@nrwl/node:package",
-          "outputs": [
-            "{options.outputPath}"
-          ],
-          "options": {
-            "outputPath": "dist/libs/mongodb-memory-server",
-            "tsConfig": "libs/mongodb-memory-server/tsconfig.lib.json",
-            "packageJson": "libs/mongodb-memory-server/package.json",
-            "main": "libs/mongodb-memory-server/src/index.ts",
-            "assets": [
-              "libs/mongodb-memory-server/*.md"
-            ]
-          }
-        },
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/mongodb-memory-server/**/*.ts"
-            ]
-          }
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/mongodb-memory-server"
-          ],
-          "options": {
-            "jestConfig": "libs/mongodb-memory-server/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      }
-    }
-  },
-  "cli": {
-    "defaultCollection": "@nrwl/next"
-  },
-  "generators": {
-    "@nrwl/react": {
-      "application": {
-        "babel": true
-      }
-    },
-    "@nrwl/next": {
-      "application": {
-        "style": "styled-components",
-        "linter": "eslint"
-      }
-    }
-  },
-  "defaultProject": "auth-frontend"
+	"version": 2,
+	"projects": {
+		"api": {
+			"root": "apps/api",
+			"sourceRoot": "apps/api/src",
+			"projectType": "application",
+			"targets": {
+				"build": {
+					"executor": "@nrwl/node:build",
+					"outputs": ["{options.outputPath}"],
+					"options": {
+						"outputPath": "dist/apps/api",
+						"main": "apps/api/src/main.ts",
+						"tsConfig": "apps/api/tsconfig.app.json",
+						"assets": ["apps/api/src/assets"],
+						"webpackConfig": "apps/api/webpack.config.js"
+					},
+					"configurations": {
+						"production": {
+							"optimization": true,
+							"extractLicenses": true,
+							"inspect": false,
+							"fileReplacements": [
+								{
+									"replace": "apps/api/src/environments/environment.ts",
+									"with": "apps/api/src/environments/environment.prod.ts"
+								}
+							]
+						}
+					}
+				},
+				"serve": {
+					"executor": "@nrwl/node:execute",
+					"options": {
+						"buildTarget": "api:build"
+					}
+				},
+				"lint": {
+					"executor": "@nrwl/linter:eslint",
+					"options": {
+						"lintFilePatterns": ["apps/api/**/*.ts"]
+					}
+				},
+				"test": {
+					"executor": "@nrwl/jest:jest",
+					"outputs": ["coverage/apps/api"],
+					"options": {
+						"jestConfig": "apps/api/jest.config.js",
+						"passWithNoTests": true
+					}
+				}
+			}
+		},
+		"auth-frontend": {
+			"root": "apps/auth-frontend",
+			"sourceRoot": "apps/auth-frontend",
+			"projectType": "application",
+			"targets": {
+				"build": {
+					"executor": "@nrwl/next:build",
+					"outputs": ["{options.outputPath}"],
+					"options": {
+						"root": "apps/auth-frontend",
+						"outputPath": "dist/apps/auth-frontend"
+					},
+					"configurations": {
+						"production": {}
+					}
+				},
+				"serve": {
+					"executor": "@nrwl/next:server",
+					"options": {
+						"buildTarget": "auth-frontend:build",
+						"dev": true,
+						"proxyConfig": "apps/auth-frontend/proxy.conf.json"
+					},
+					"configurations": {
+						"production": {
+							"buildTarget": "auth-frontend:build:production",
+							"dev": false
+						}
+					}
+				},
+				"export": {
+					"executor": "@nrwl/next:export",
+					"options": {
+						"buildTarget": "auth-frontend:build:production"
+					}
+				},
+				"test": {
+					"executor": "@nrwl/jest:jest",
+					"outputs": ["coverage/apps/auth-frontend"],
+					"options": {
+						"jestConfig": "apps/auth-frontend/jest.config.js",
+						"passWithNoTests": true
+					}
+				},
+				"lint": {
+					"executor": "@nrwl/linter:eslint",
+					"options": {
+						"lintFilePatterns": ["apps/auth-frontend/**/*.{ts,tsx,js,jsx}"]
+					}
+				}
+			}
+		},
+		"auth-frontend-e2e": {
+			"root": "apps/auth-frontend-e2e",
+			"sourceRoot": "apps/auth-frontend-e2e/src",
+			"projectType": "application",
+			"targets": {
+				"e2e": {
+					"executor": "@nrwl/cypress:cypress",
+					"options": {
+						"cypressConfig": "apps/auth-frontend-e2e/cypress.json",
+						"tsConfig": "apps/auth-frontend-e2e/tsconfig.e2e.json",
+						"devServerTarget": "auth-frontend:serve"
+					},
+					"configurations": {
+						"production": {
+							"devServerTarget": "auth-frontend:serve:production"
+						}
+					}
+				},
+				"lint": {
+					"executor": "@nrwl/linter:eslint",
+					"options": {
+						"lintFilePatterns": ["apps/auth-frontend-e2e/**/*.{js,ts}"]
+					}
+				}
+			}
+		},
+		"custom-store": {
+			"root": "libs/custom-store",
+			"sourceRoot": "libs/custom-store/src",
+			"projectType": "library",
+			"targets": {
+				"build": {
+					"executor": "@nrwl/web:package",
+					"outputs": ["{options.outputPath}"],
+					"options": {
+						"outputPath": "dist/libs/custom-store",
+						"tsConfig": "libs/custom-store/tsconfig.lib.json",
+						"project": "libs/custom-store/package.json",
+						"entryFile": "libs/custom-store/src/index.ts",
+						"external": ["react/jsx-runtime"],
+						"rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+						"assets": [
+							{
+								"glob": "libs/custom-store/README.md",
+								"input": ".",
+								"output": "."
+							}
+						]
+					}
+				},
+				"lint": {
+					"executor": "@nrwl/linter:eslint",
+					"options": {
+						"lintFilePatterns": ["libs/custom-store/**/*.{ts,tsx,js,jsx}"]
+					}
+				}
+			}
+		},
+		"jwt": {
+			"root": "libs/jwt",
+			"sourceRoot": "libs/jwt/src",
+			"projectType": "library",
+			"targets": {
+				"build": {
+					"executor": "@nrwl/node:package",
+					"outputs": ["{options.outputPath}"],
+					"options": {
+						"outputPath": "dist/libs/jwt",
+						"tsConfig": "libs/jwt/tsconfig.lib.json",
+						"packageJson": "libs/jwt/package.json",
+						"main": "libs/jwt/src/index.ts",
+						"assets": ["libs/jwt/*.md"]
+					}
+				},
+				"lint": {
+					"executor": "@nrwl/linter:eslint",
+					"options": {
+						"lintFilePatterns": ["libs/jwt/**/*.ts"]
+					}
+				},
+				"test": {
+					"executor": "@nrwl/jest:jest",
+					"outputs": ["coverage/libs/jwt"],
+					"options": {
+						"jestConfig": "libs/jwt/jest.config.js",
+						"passWithNoTests": true
+					}
+				}
+			}
+		},
+		"mongodb-memory-server": {
+			"root": "libs/mongodb-memory-server",
+			"sourceRoot": "libs/mongodb-memory-server/src",
+			"projectType": "library",
+			"targets": {
+				"build": {
+					"executor": "@nrwl/node:package",
+					"outputs": ["{options.outputPath}"],
+					"options": {
+						"outputPath": "dist/libs/mongodb-memory-server",
+						"tsConfig": "libs/mongodb-memory-server/tsconfig.lib.json",
+						"packageJson": "libs/mongodb-memory-server/package.json",
+						"main": "libs/mongodb-memory-server/src/index.ts",
+						"assets": ["libs/mongodb-memory-server/*.md"]
+					}
+				},
+				"lint": {
+					"executor": "@nrwl/linter:eslint",
+					"options": {
+						"lintFilePatterns": ["libs/mongodb-memory-server/**/*.ts"]
+					}
+				},
+				"test": {
+					"executor": "@nrwl/jest:jest",
+					"outputs": ["coverage/libs/mongodb-memory-server"],
+					"options": {
+						"jestConfig": "libs/mongodb-memory-server/jest.config.js",
+						"passWithNoTests": true
+					}
+				}
+			}
+		}
+	},
+	"cli": {
+		"defaultCollection": "@nrwl/next"
+	},
+	"generators": {
+		"@nrwl/react": {
+			"application": {
+				"babel": true
+			}
+		},
+		"@nrwl/next": {
+			"application": {
+				"style": "styled-components",
+				"linter": "eslint"
+			}
+		}
+	},
+	"defaultProject": "auth-frontend"
 }

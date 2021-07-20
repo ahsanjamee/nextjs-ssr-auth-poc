@@ -2,6 +2,7 @@ import { JwtService } from '@auth-demo/jwt';
 import { HttpException, Injectable } from '@nestjs/common';
 import { ReturnModelType } from '@typegoose/typegoose';
 import { compareSync } from 'bcryptjs';
+import { plainToClass } from 'class-transformer';
 import { InjectModel } from 'nestjs-typegoose';
 import { CreateUserDTO } from '../dto/create-user.dto';
 import { UserEntity } from '../entities/user.entity';
@@ -15,7 +16,8 @@ export class UserService {
 
 	async create(user: CreateUserDTO) {
 		const doc = await this.userModel.create(user);
-		return doc.toJSON();
+		const json = doc.toJSON();
+		return plainToClass(UserEntity, json);
 	}
 
 	async login(user: CreateUserDTO) {
