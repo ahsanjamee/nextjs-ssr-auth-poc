@@ -1,47 +1,50 @@
 {
-  "npmScope": "next-auth-ssr-poc",
-  "affected": {
-    "defaultBase": "master"
-  },
-  "implicitDependencies": {
-    "package.json": {
-      "dependencies": "*",
-      "devDependencies": "*"
-    },
-    ".eslintrc.json": "*"
-  },
-  "tasksRunnerOptions": {
-    "default": {
-      "runner": "@nrwl/nx-cloud",
-      "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"],
-        "accessToken": "NzA3NTViOGUtZjM4Yy00ZjJkLWIyNjItODg0ZDQ5OGE4ZWMwfHJlYWQtd3JpdGU=",
-        "canTrackAnalytics": false,
-        "showUsageWarnings": true
-      }
-    }
-  },
-  "targetDependencies": {
-    "build": [
-      {
-        "target": "build",
-        "projects": "dependencies"
-      }
-    ]
-  },
-  "projects": {
-    "api": {
-      "tags": []
-    },
-    "auth-frontend": {
-      "tags": []
-    },
-    "auth-frontend-e2e": {
-      "tags": [],
-      "implicitDependencies": ["auth-frontend"]
-    },
-    "custom-store": {
-      "tags": []
-    }
-  }
+	"npmScope": "next-auth-ssr-poc",
+	"affected": {
+		"defaultBase": "master"
+	},
+	"implicitDependencies": {
+		"package.json": {
+			"dependencies": "*",
+			"devDependencies": "*"
+		},
+		".eslintrc.json": "*"
+	},
+	"tasksRunnerOptions": {
+		"default": {
+			"runner": "@nrwl/nx-cloud",
+			"options": {
+				"cacheableOperations": ["build", "lint", "test", "e2e"],
+				"accessToken": "NzA3NTViOGUtZjM4Yy00ZjJkLWIyNjItODg0ZDQ5OGE4ZWMwfHJlYWQtd3JpdGU=",
+				"canTrackAnalytics": false,
+				"showUsageWarnings": true
+			}
+		}
+	},
+	"targetDependencies": {
+		"build": [
+			{
+				"target": "build",
+				"projects": "dependencies"
+			}
+		]
+	},
+	"projects": {
+		"api": {
+			"tags": []
+		},
+		"auth-frontend": {
+			"tags": []
+		},
+		"auth-frontend-e2e": {
+			"tags": [],
+			"implicitDependencies": ["auth-frontend"]
+		},
+		"custom-store": {
+			"tags": []
+		},
+		"jwt": {
+			"tags": []
+		}
+	}
 }

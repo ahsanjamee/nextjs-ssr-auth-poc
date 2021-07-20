@@ -1,11 +1,15 @@
+import { JwtModule } from '@auth-demo/jwt';
 import { Module } from '@nestjs/common';
-
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import * as fs from 'fs';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+	imports: [
+		JwtModule.forRoot(
+			fs.readFileSync('apps/api/devKeys/public.pem', { encoding: 'utf8' }),
+			fs.readFileSync('apps/api/devKeys/private.pem', { encoding: 'utf8' }),
+		),
+		AuthModule,
+	],
 })
 export class AppModule {}
