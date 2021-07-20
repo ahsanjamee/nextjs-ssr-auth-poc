@@ -45,6 +45,9 @@
 		},
 		"jwt": {
 			"tags": []
+		},
+		"mongodb-memory-server": {
+			"tags": []
 		}
 	}
 }

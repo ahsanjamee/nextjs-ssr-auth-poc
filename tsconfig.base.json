@@ -16,7 +16,8 @@
 		"baseUrl": ".",
 		"paths": {
 			"@auth-demo/custom-store": ["libs/custom-store/src/index.ts"],
-			"@auth-demo/jwt": ["libs/jwt/src/index.ts"]
+			"@auth-demo/jwt": ["libs/jwt/src/index.ts"],
+			"@auth-demo/mongodb-memory-server": ["libs/mongodb-memory-server/src/index.ts"]
 		}
 	},
 	"exclude": ["node_modules", "tmp"]

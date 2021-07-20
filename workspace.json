@@ -222,6 +222,46 @@
           }
         }
       }
+    },
+    "mongodb-memory-server": {
+      "root": "libs/mongodb-memory-server",
+      "sourceRoot": "libs/mongodb-memory-server/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:package",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/libs/mongodb-memory-server",
+            "tsConfig": "libs/mongodb-memory-server/tsconfig.lib.json",
+            "packageJson": "libs/mongodb-memory-server/package.json",
+            "main": "libs/mongodb-memory-server/src/index.ts",
+            "assets": [
+              "libs/mongodb-memory-server/*.md"
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/mongodb-memory-server/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/libs/mongodb-memory-server"
+          ],
+          "options": {
+            "jestConfig": "libs/mongodb-memory-server/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {
