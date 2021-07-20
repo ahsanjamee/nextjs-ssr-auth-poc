@@ -2,15 +2,23 @@ import { NextPage, NextPageContext } from 'next';
 import { useRouter } from 'next/dist/client/router';
 import { setCookie } from 'nookies';
 import { useEffect } from 'react';
+import { authAPI } from '../modules/api';
 import { authStore, useAuthStore } from '../modules/stores';
 import './login.module.css';
 
 const Login: NextPage = () => {
 	const { isLoggedIn } = useAuthStore();
 	const router = useRouter();
-	const handleLogin = () => {
-		setCookie(null, 'token', '123');
-		authStore.setBatch({ isLoggedIn: true, token: '123' });
+
+	const handleLogin = async () => {
+		const token = await authAPI.login({ name: 'string', password: 'string' }).catch(() => ({ token: null }));
+		if (token.token) authStore.setBatch({ isLoggedIn: true, token: token.token });
+		alert('Invalid Username or Password');
+	};
+
+	const handleCreateUser = async () => {
+		const data = await authAPI.signUp({ name: 'string', password: 'string' });
+		console.log(data);
 	};
 
 	useEffect(() => {
@@ -22,7 +30,8 @@ const Login: NextPage = () => {
 	return (
 		<div>
 			<h1>Welcome to login!</h1>
-			{!isLoggedIn && <button onClick={handleLogin}>login</button>}
+			<button onClick={handleLogin}>login</button>
+			<button onClick={handleCreateUser}>create user</button>
 		</div>
 	);
 };
