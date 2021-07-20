@@ -1,0 +1,99 @@
+{
+  "version": 2,
+  "projects": {
+    "auth-frontend": {
+      "root": "apps/auth-frontend",
+      "sourceRoot": "apps/auth-frontend",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/next:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "root": "apps/auth-frontend",
+            "outputPath": "dist/apps/auth-frontend"
+          },
+          "configurations": {
+            "production": {}
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/next:server",
+          "options": {
+            "buildTarget": "auth-frontend:build",
+            "dev": true
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "auth-frontend:build:production",
+              "dev": false
+            }
+          }
+        },
+        "export": {
+          "executor": "@nrwl/next:export",
+          "options": {
+            "buildTarget": "auth-frontend:build:production"
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/auth-frontend"],
+          "options": {
+            "jestConfig": "apps/auth-frontend/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/auth-frontend/**/*.{ts,tsx,js,jsx}"]
+          }
+        }
+      }
+    },
+    "auth-frontend-e2e": {
+      "root": "apps/auth-frontend-e2e",
+      "sourceRoot": "apps/auth-frontend-e2e/src",
+      "projectType": "application",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/auth-frontend-e2e/cypress.json",
+            "tsConfig": "apps/auth-frontend-e2e/tsconfig.e2e.json",
+            "devServerTarget": "auth-frontend:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "auth-frontend:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/auth-frontend-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/next"
+  },
+  "generators": {
+    "@nrwl/react": {
+      "application": {
+        "babel": true
+      }
+    },
+    "@nrwl/next": {
+      "application": {
+        "style": "styled-components",
+        "linter": "eslint"
+      }
+    }
+  },
+  "defaultProject": "auth-frontend"
+}
