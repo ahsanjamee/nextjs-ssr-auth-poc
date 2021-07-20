@@ -1,6 +1,6 @@
 import { StoreFactory, useCustomStore } from '@auth-demo/custom-store';
 
-type AuthStoreType = {
+export type AuthStoreType = {
 	isLoggedIn: boolean;
 	token?: string | null;
 };

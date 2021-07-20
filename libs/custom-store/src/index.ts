@@ -12,6 +12,7 @@ type SetterType<T> = {
 
 type StoreType<T> = {
 	hydrate: SetType<T>;
+	setBatch: SetType<T>;
 	subscribe(cb: (val: T) => void): () => void;
 	getState(): T;
 };
@@ -94,7 +95,7 @@ export const StoreFactory = <T extends Record<string, unknown>>(initialState: T)
 };
 
 export const useCustomStore = <T>(store: ReturnStoreType<T>): T => {
-	const [x, setX] = useState(store.getState());
-	useEffect(() => store.subscribe((val) => setX(val)), [store]);
-	return x;
+	const [state, setState] = useState(store.getState());
+	useEffect(() => store.subscribe((val) => setState(val)), [store]);
+	return state;
 };

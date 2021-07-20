@@ -1,32 +1,26 @@
 import styled from 'styled-components';
-import { authStore, useAuthStore } from '../stores';
-import { setCookie, destroyCookie } from 'nookies';
+import { destroyCookie } from 'nookies';
+import { useAuthStore, authStore } from '../modules/stores';
+import { GetServerSideProps, NextPage } from 'next';
+import { WithAuth } from '../modules/auth/withAuth';
 
-const StyledPage = styled.div`
-	.page {
-	}
-`;
-
-export function Index() {
-	const { isLoggedIn } = useAuthStore();
-
-	const handleLogin = () => {
-		authStore.setToken('123');
-		authStore.setIsLoggedIn(true);
-		setCookie(null, 'token', '123');
-	};
+const Index: NextPage = () => {
+	const { isLoggedIn, token } = useAuthStore();
 	const handleLogout = () => {
-		authStore.setToken(null);
-		authStore.setIsLoggedIn(false);
+		authStore.setBatch({ isLoggedIn: false, token: null });
 		destroyCookie(null, 'token');
 	};
 	return (
 		<StyledPage>
-			<h1>is Logged in: {String(isLoggedIn)}</h1>
-			{!isLoggedIn && <button onClick={handleLogin}>login</button>}
+			<h1>
+				is Logged in: {String(isLoggedIn)} , Token: {token}
+			</h1>
 			{isLoggedIn && <button onClick={handleLogout}>logout</button>}
+			<h3>server side prop: </h3>
 		</StyledPage>
 	);
-}
+};
 
-export default Index;
+const StyledPage = styled.main``;
+
+export default WithAuth(Index);

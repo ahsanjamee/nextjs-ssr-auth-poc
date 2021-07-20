@@ -3,13 +3,12 @@ import App from 'next/app';
 import Head from 'next/head';
 import { ReactComponent as NxLogo } from '../public/nx-logo-white.svg';
 import './styles.css';
-import { authStore } from '../stores';
+import { authStore, AuthStoreType } from '../modules/stores';
 import { parseCookies } from 'nookies';
+type ExtendedAppProps = AppProps & { authStore: AuthStoreType };
 
-type ExtendedAppProps = AppProps & { isLoggedIn: boolean; token: string | null };
-
-function CustomApp({ Component, pageProps, isLoggedIn, token }: ExtendedAppProps) {
-	authStore.hydrate({ isLoggedIn, token });
+function CustomApp({ Component, pageProps, authStore: authStoreHydrateValue }: ExtendedAppProps) {
+	authStore.hydrate(authStoreHydrateValue);
 	return (
 		<>
 			<Head>
@@ -29,11 +28,13 @@ function CustomApp({ Component, pageProps, isLoggedIn, token }: ExtendedAppProps
 }
 
 CustomApp.getInitialProps = async (appContext: AppContext) => {
-	const appProps = await App.getInitialProps(appContext);
 	const cookies = parseCookies(appContext.ctx);
-	if (cookies.token) {
-		return { ...appProps, isLoggedIn: true, token: cookies.token };
+	if (cookies?.token && cookies?.token !== '') {
+		authStore.setBatch((state) => {
+			return { ...state, isLoggedIn: true, token: cookies.token };
+		});
 	}
-	return { ...appProps, isLoggedIn: false, token: null };
+	const appProps = await App.getInitialProps(appContext);
+	return { ...appProps, authStore: authStore.getState() };
 };
 export default CustomApp;
