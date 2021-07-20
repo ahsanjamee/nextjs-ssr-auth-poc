@@ -71,7 +71,6 @@ Kq510QKBgQCsf5mY21WeWe2zbN+XZo+iVnOEsv76DAaVi06CJYv2ne8h9hV6sVyR
 
 	it('should return a token', () => {
 		const token = service.sign({ id: 123 });
-		console.log(token);
 		expect(token).toBeTruthy();
 		expect(token.match(/\./g).length).toBe(2);
 	});
@@ -89,8 +88,6 @@ Kq510QKBgQCsf5mY21WeWe2zbN+XZo+iVnOEsv76DAaVi06CJYv2ne8h9hV6sVyR
 		const res = service.verify<{ id: 123 }>(token);
 		expect(res).toBeTruthy();
 		expect(res.id).toBe(123);
-
-		console.log(res.exp * 1000, now + 1000 * 60 * 60 * 24 * 7);
-		expect(res.exp * 1000).toBeGreaterThanOrEqual(now + 1000 * 60 * 60 * 24 * 7);
+		expect(res.exp * 1000).toBeLessThanOrEqual(now + 1000 * 60 * 60 * 24 * 7);
 	});
 });
