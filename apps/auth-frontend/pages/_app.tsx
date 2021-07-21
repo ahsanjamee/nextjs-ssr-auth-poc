@@ -33,7 +33,6 @@ CustomApp.getInitialProps = async (appContext: AppContext) => {
 		});
 	}
 	const appProps = await App.getInitialProps(appContext);
-	console.log(authStore.getState());
 	return { ...appProps, authStore: authStore.getState() };
 };
 export default CustomApp;

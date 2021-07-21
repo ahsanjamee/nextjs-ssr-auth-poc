@@ -8,7 +8,6 @@ type Props = {
 };
 
 const Index: NextPage<Props> = ({ data: { id, name } }) => {
-	console.log({ id, name });
 	return (
 		<StyledPage>
 			<h1>This is a Protected Page</h1>
@@ -20,7 +19,6 @@ const Index: NextPage<Props> = ({ data: { id, name } }) => {
 
 Index.getInitialProps = async (ctx) => {
 	const data = await selfAPI.getSelf();
-	console.log(data);
 	return { data };
 };
 
