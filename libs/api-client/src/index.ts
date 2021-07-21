@@ -6,9 +6,9 @@ type File = {
 export class BaseAPI {
 	private get defaultHeaders() {
 		if (this.getToken) {
-			return { 'content-type': 'application/json', token: `Bearer ${this.getToken()}` };
+			return { 'content-type': 'application/json', Authorization: `Bearer ${this.getToken()}` };
 		}
-		return { 'content-type': 'application/json', token: '' };
+		return { 'content-type': 'application/json', Authorization: '' };
 	}
 
 	protected handleUnAuthorized: (() => void) | null = null;
@@ -18,7 +18,7 @@ export class BaseAPI {
 
 	protected async get<T>(endpoint: string, headers: { [key: string]: string } = {}) {
 		const res = await fetch(`${this.baseURL}/${endpoint}`, {
-			headers,
+			headers: { ...headers, ...this.defaultHeaders },
 		});
 		return (await res.json()) as T;
 	}
@@ -102,7 +102,7 @@ export class BaseAPI {
 		}
 
 		const res = await fetch(`${this.baseURL}/${endpoint}`, {
-			headers: { ...headers },
+			headers: { ...headers, Authorization: this.getToken ? `Bearer ${this.getToken()}` : '' },
 			method: 'POST',
 			body: formData,
 		});

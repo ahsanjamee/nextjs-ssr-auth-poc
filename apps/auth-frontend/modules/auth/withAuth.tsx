@@ -11,7 +11,7 @@ export const WithAuth = (Component: NextPage) => {
 			if (!isLoggedIn) {
 				router.push('/login');
 			}
-		}, [router, isLoggedIn]);
+		});
 		return <Component {...props} />;
 	};
 
@@ -23,7 +23,9 @@ export const WithAuth = (Component: NextPage) => {
 			} else {
 				await Router.push('/login');
 			}
-			return {};
+			return {
+				a: 1,
+			};
 		}
 		if (Component.getInitialProps) {
 			return await Component.getInitialProps(ctx);

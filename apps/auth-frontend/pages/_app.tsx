@@ -1,27 +1,25 @@
-import { AppContext, AppProps } from 'next/app';
-import App from 'next/app';
+import App, { AppContext, AppProps } from 'next/app';
 import Head from 'next/head';
-import { ReactComponent as NxLogo } from '../public/nx-logo-white.svg';
-import './styles.css';
-import { authStore, AuthStoreType } from '../modules/stores';
 import { parseCookies } from 'nookies';
+import { Header } from '../components/Header';
+import { authStore, AuthStoreType, useAuthStore } from '../modules/stores';
+import './styles.css';
+
 type ExtendedAppProps = AppProps & { authStore: AuthStoreType };
 
 function CustomApp({ Component, pageProps, authStore: authStoreHydrateValue }: ExtendedAppProps) {
 	authStore.hydrate(authStoreHydrateValue);
+	const { isLoggedIn } = useAuthStore();
 	return (
 		<>
 			<Head>
 				<title>Welcome to auth-frontend!</title>
 			</Head>
 			<div className='app'>
-				<header className='flex'>
-					<NxLogo width='75' height='50' />
-					<h1>Welcome to auth-frontend!</h1>
-				</header>
-				<main>
+				{isLoggedIn && <Header />}
+				<div className='max-w-7xl mx-auto py-6 sm:px-6 lg:px-8'>
 					<Component {...pageProps} />
-				</main>
+				</div>
 			</div>
 		</>
 	);
@@ -35,6 +33,7 @@ CustomApp.getInitialProps = async (appContext: AppContext) => {
 		});
 	}
 	const appProps = await App.getInitialProps(appContext);
+	console.log(authStore.getState());
 	return { ...appProps, authStore: authStore.getState() };
 };
 export default CustomApp;
