@@ -1,6 +1,7 @@
 import { DynamicModule, Global, Module } from '@nestjs/common';
 import { JWTConstants } from './jwt.constants';
 import { JwtService } from './jwt.service';
+import { UserGuard } from './user/user.guard';
 
 @Global()
 @Module({})
@@ -32,9 +33,11 @@ export class JwtModule {
 					provide: JWTConstants.JWT_EXPIRES_TOKEN,
 					useValue: expiresIn || '7d',
 				},
+				UserGuard,
 			],
 			exports: [
 				JwtService,
+				UserGuard,
 				JWTConstants.JWT_PRIVATE_KEY_TOKEN,
 				JWTConstants.JWT_PUBLIC_KEY_TOKEN,
 				JWTConstants.JWT_EXPIRES_TOKEN,

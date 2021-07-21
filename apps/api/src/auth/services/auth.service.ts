@@ -8,7 +8,7 @@ import { CreateUserDTO } from '../dto/create-user.dto';
 import { UserEntity } from '../entities/user.entity';
 
 @Injectable()
-export class UserService {
+export class AuthService {
 	constructor(
 		@InjectModel(UserEntity) private userModel: ReturnModelType<typeof UserEntity>,
 		private jwtService: JwtService,

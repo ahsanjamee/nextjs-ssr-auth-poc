@@ -3,13 +3,13 @@ import { ApiTags } from '@nestjs/swagger';
 import { Serialize } from '../../../utils/serialize.decorator';
 import { CreateUserDTO } from '../../dto/create-user.dto';
 import { UserEntity } from '../../entities/user.entity';
-import { UserService } from '../../services/user.service';
+import { AuthService } from '../../services/auth.service';
 
 @Serialize
 @Controller('user')
 @ApiTags('User Operations')
-export class UserController {
-	constructor(private userService: UserService) {}
+export class AuthController {
+	constructor(private userService: AuthService) {}
 
 	@Post('sign-up')
 	async signUp(@Body() body: CreateUserDTO): Promise<UserEntity> {
